@@ -14,7 +14,7 @@
 void FIR_Init(void);
 void FIR_Transfer(int16_t * pBuff);
 
-extern bool FIR_isFullTransferComplete;
-extern int32_t FIR_buffer[AUDIO_CIRCULAR_BUFFER_HALF_SIZE];
+extern volatile bool FIR_isFullTransferComplete;
+extern int32_t FIR_buffer[AUDIO_CIRCULAR_BUFFER_QUARTER_SIZE];
 
 #endif

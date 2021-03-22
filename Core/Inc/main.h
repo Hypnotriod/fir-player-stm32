@@ -58,26 +58,26 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define I2S_LRCLK_Pin GPIO_PIN_12
+#define I2S_LRCLK_Pin       GPIO_PIN_12
 #define I2S_LRCLK_GPIO_Port GPIOB
-#define I2S_SCK_Pin GPIO_PIN_13
-#define I2S_SCK_GPIO_Port GPIOB
-#define I2S_SDIN_Pin GPIO_PIN_14
-#define I2S_SDIN_GPIO_Port GPIOB
-#define I2S_SDOUT_Pin GPIO_PIN_15
+#define I2S_SCK_Pin         GPIO_PIN_13
+#define I2S_SCK_GPIO_Port   GPIOB
+#define I2S_SDIN_Pin        GPIO_PIN_14
+#define I2S_SDIN_GPIO_Port  GPIOB
+#define I2S_SDOUT_Pin       GPIO_PIN_15
 #define I2S_SDOUT_GPIO_Port GPIOB
-#define I2S_MCK_Pin GPIO_PIN_6
-#define I2S_MCK_GPIO_Port GPIOC
-#define SPI_CS_Pin GPIO_PIN_15
-#define SPI_CS_GPIO_Port GPIOA
-#define SPI_SCK_Pin GPIO_PIN_10
-#define SPI_SCK_GPIO_Port GPIOC
-#define I2S_EN_Pin GPIO_PIN_11
-#define I2S_EN_GPIO_Port GPIOC
-#define SPI_MOSI_Pin GPIO_PIN_12
-#define SPI_MOSI_GPIO_Port GPIOC
-#define SPI_MISO_Pin GPIO_PIN_4
-#define SPI_MISO_GPIO_Port GPIOB
+#define I2S_MCK_Pin         GPIO_PIN_6
+#define I2S_MCK_GPIO_Port   GPIOC
+#define I2S_EN_Pin          GPIO_PIN_2
+#define I2S_EN_GPIO_Port    GPIOD
+#define SPI_SCK_Pin         GPIO_PIN_10
+#define SPI_SCK_GPIO_Port   GPIOC
+#define SPI_MISO_Pin        GPIO_PIN_11
+#define SPI_MISO_GPIO_Port  GPIOC
+#define SPI_MOSI_Pin        GPIO_PIN_12
+#define SPI_MOSI_GPIO_Port  GPIOC
+#define SPI_CS_Pin          GPIO_PIN_12
+#define SPI_CS_GPIO_Port    GPIOG
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
