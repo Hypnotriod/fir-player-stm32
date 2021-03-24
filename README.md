@@ -1,6 +1,9 @@
 # fir-player-stm32
 `STM32F407ZGT` based project to test [FPGA's fir filter design](https://github.com/Hypnotriod/fir-filter-16bit-8x8-m9k)  
-Used Cirrus Logic `CS4270` as ADC / DAC chip  
+
+## Hardware
+* HY-STM32F4xxCore144 Core/Dev Board
+* Cirrus Logic CS4270 ADC / DAC chip
 
 ## Pinout
 * I2S_LRCLK -> **PB12**
