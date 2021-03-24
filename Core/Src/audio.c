@@ -3,8 +3,8 @@
 
 //************ public variables ************ //
 int16_t AUDIO_circularBuffer[AUDIO_CIRCULAR_BUFFER_SIZE] = {0};
-volatile bool AUDIO_isFullTransferComplete = false;
-volatile bool AUDIO_isHalfTransferComplete = false;
+volatile bool AUDIO_secondBufferHalfReady = false;
+volatile bool AUDIO_firstBufferHalfReady = false;
 
 //************ private functions prototypes ************ //
 void AUDIO_FullTransferCompleteCallback(struct __DMA_HandleTypeDef * hdma);
@@ -33,10 +33,10 @@ void AUDIO_Start(void)
 
 void AUDIO_FullTransferCompleteCallback(struct __DMA_HandleTypeDef * hdma)
 {
-  AUDIO_isFullTransferComplete = true;
+  AUDIO_secondBufferHalfReady = true;
 }
 
 void AUDIO_HalfTransferCompleteCallback(struct __DMA_HandleTypeDef * hdma)
 {
-  AUDIO_isHalfTransferComplete = true;
+  AUDIO_firstBufferHalfReady = true;
 }

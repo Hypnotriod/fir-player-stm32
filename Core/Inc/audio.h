@@ -6,7 +6,7 @@
 #include "i2s.h"
 #include <stdbool.h>
 
-#define AUDIO_CIRCULAR_BUFFER_SIZE          16
+#define AUDIO_CIRCULAR_BUFFER_SIZE          32
 #define AUDIO_CIRCULAR_BUFFER_HALF_SIZE     (AUDIO_CIRCULAR_BUFFER_SIZE / 2)
 #define AUDIO_CIRCULAR_BUFFER_QUARTER_SIZE  (AUDIO_CIRCULAR_BUFFER_SIZE / 4)
 #define AUDIO_SAMPLE_RATE                   44100
@@ -22,7 +22,7 @@ void AUDIO_ClearBufferSecondHalf(void);
 void DMA1_Stream5_IRQHandler(void);
 
 extern int16_t AUDIO_circularBuffer[AUDIO_CIRCULAR_BUFFER_SIZE];
-extern volatile bool AUDIO_isFullTransferComplete;
-extern volatile bool AUDIO_isHalfTransferComplete;
+extern volatile bool AUDIO_secondBufferHalfReady;
+extern volatile bool AUDIO_firstBufferHalfReady;
 
 #endif

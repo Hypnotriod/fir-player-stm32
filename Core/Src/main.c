@@ -69,10 +69,7 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-  size_t i;
-  bool isHalfTransfer = false;
   int16_t * pBuff;
-  int16_t sample;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -106,24 +103,19 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    if (AUDIO_isHalfTransferComplete) {
+    if (AUDIO_firstBufferHalfReady) {
       FIR_Transfer(&AUDIO_circularBuffer[1]);
-      isHalfTransfer = true;
-      AUDIO_isHalfTransferComplete = false;
+      pBuff = AUDIO_circularBuffer;
+      AUDIO_firstBufferHalfReady = false;
     }
-    if (AUDIO_isFullTransferComplete) {
+    if (AUDIO_secondBufferHalfReady) {
       FIR_Transfer(&AUDIO_circularBuffer[AUDIO_CIRCULAR_BUFFER_HALF_SIZE + 1]);
-      isHalfTransfer = false;
-      AUDIO_isFullTransferComplete = false;
+      pBuff = &AUDIO_circularBuffer[AUDIO_CIRCULAR_BUFFER_HALF_SIZE];
+      AUDIO_secondBufferHalfReady = false;
     }
-    if (FIR_isFullTransferComplete) {
-      pBuff = isHalfTransfer ? AUDIO_circularBuffer : &AUDIO_circularBuffer[AUDIO_CIRCULAR_BUFFER_HALF_SIZE];
-      for (i = 0 ; i < AUDIO_CIRCULAR_BUFFER_QUARTER_SIZE; i++) {
-        sample = FIR_buffer[i];
-        pBuff[i * 2] = AUDIO_Swap16(sample);
-        pBuff[i * 2 + 1] = pBuff[i * 2];
-      }
-      FIR_isFullTransferComplete = false;
+    if (FIR_dataReady) {
+      FIR_Fill(pBuff);
+      FIR_dataReady = false;
     }
     /* USER CODE END WHILE */
 
