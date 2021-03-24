@@ -1,5 +1,6 @@
 # fir-player-stm32
 `STM32F407ZGT` based project to test [FPGA's fir filter design](https://github.com/Hypnotriod/fir-filter-16bit-8x8-m9k)  
+Configured with `STM32CubeMX` initialization code generator
 
 ## Hardware
 * HY-STM32F4xxCore144 Core/Dev Board
