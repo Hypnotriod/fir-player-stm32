@@ -95,8 +95,8 @@ int main(void)
   MX_SPI3_Init();
   /* USER CODE BEGIN 2 */
   FIR_Init();
-	AUDIO_Init();
-	AUDIO_Start();
+  AUDIO_Init();
+  AUDIO_Start();
   /* USER CODE END 2 */
 
   /* Infinite loop */
