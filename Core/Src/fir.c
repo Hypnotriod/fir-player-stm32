@@ -21,15 +21,39 @@ void FIR_Transfer(int16_t * pBuff)
   size_t i;
   int16_t sample;
   
-  for (i = 0; i < AUDIO_CIRCULAR_BUFFER_HALF_SIZE; i += 4) {
+  for (i = 0; i < AUDIO_CIRCULAR_BUFFER_HALF_SIZE; i += FIR_PACKET_SAMPLES_NUM * sizeof(uint16_t)) {
     sample = *pBuff * INPUT_AMPLIFY_FACTOR;
-    pBuff += 2;
     ((uint16_t *) _buffer)[i]   = AUDIO_Swap16(sample);
-    sample = *pBuff * INPUT_AMPLIFY_FACTOR;
     pBuff += 2;
+    sample = *pBuff * INPUT_AMPLIFY_FACTOR;
     ((uint16_t *) _buffer)[i+1] = AUDIO_Swap16(sample);
-    ((int16_t *) _buffer)[i+2] = 0;
-    ((int16_t *) _buffer)[i+3] = 0;
+    pBuff += 2;
+    sample = *pBuff * INPUT_AMPLIFY_FACTOR;
+    ((uint16_t *) _buffer)[i+2] = AUDIO_Swap16(sample);
+    pBuff += 2;
+    sample = *pBuff * INPUT_AMPLIFY_FACTOR;
+    ((uint16_t *) _buffer)[i+3] = AUDIO_Swap16(sample);
+    pBuff += 2;
+    sample = *pBuff * INPUT_AMPLIFY_FACTOR;
+    ((uint16_t *) _buffer)[i+4] = AUDIO_Swap16(sample);
+    pBuff += 2;
+    sample = *pBuff * INPUT_AMPLIFY_FACTOR;
+    ((uint16_t *) _buffer)[i+5] = AUDIO_Swap16(sample);
+    pBuff += 2;
+    sample = *pBuff * INPUT_AMPLIFY_FACTOR;
+    ((uint16_t *) _buffer)[i+6] = AUDIO_Swap16(sample);
+    pBuff += 2;
+    sample = *pBuff * INPUT_AMPLIFY_FACTOR;
+    ((uint16_t *) _buffer)[i+7] = AUDIO_Swap16(sample);
+    pBuff += 2;
+    ((int16_t *) _buffer)[i+8] = 0;
+    ((int16_t *) _buffer)[i+9] = 0;
+    ((int16_t *) _buffer)[i+10] = 0;
+    ((int16_t *) _buffer)[i+11] = 0;
+    ((int16_t *) _buffer)[i+12] = 0;
+    ((int16_t *) _buffer)[i+13] = 0;
+    ((int16_t *) _buffer)[i+14] = 0;
+    ((int16_t *) _buffer)[i+15] = 0;
   }
   
   FIR_CSLow();
