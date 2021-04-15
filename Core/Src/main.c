@@ -93,6 +93,7 @@ int main(void)
   MX_DMA_Init();
   MX_I2S2_Init();
   MX_SPI3_Init();
+  MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
   FIR_Init();
   AUDIO_Init();

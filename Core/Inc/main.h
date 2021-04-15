@@ -78,6 +78,12 @@ void Error_Handler(void);
 #define SPI_MOSI_GPIO_Port  GPIOC
 #define SPI_CS_Pin          GPIO_PIN_12
 #define SPI_CS_GPIO_Port    GPIOG
+#define FIR_LOAD_Pin        GPIO_PIN_4
+#define FIR_LOAD_GPIO_Port  GPIOA
+#define FIR_SCK_Pin         GPIO_PIN_5
+#define FIR_SCK_GPIO_Port   GPIOA
+#define FIR_DO_Pin          GPIO_PIN_7
+#define FIR_DO_GPIO_Port    GPIOA
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
