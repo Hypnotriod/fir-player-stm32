@@ -29,6 +29,7 @@
 #include <stdbool.h>
 #include "audio.h"
 #include "fir.h"
+#include "impulse.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -96,6 +97,7 @@ int main(void)
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
   FIR_Init();
+  FIR_Load(IMPULSE_Impulses[0]);
   AUDIO_Init();
   AUDIO_Start();
   /* USER CODE END 2 */
