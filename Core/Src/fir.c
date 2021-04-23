@@ -9,9 +9,19 @@ static int32_t _buffer[AUDIO_CIRCULAR_BUFFER_QUARTER_SIZE] = {0};
 #define FIR_CSHigh()  {SPI_CS_GPIO_Port->ODR |= SPI_CS_Pin;}
 #define FIR_CSLow()   {SPI_CS_GPIO_Port->ODR &= ~SPI_CS_Pin;}
 
+#define FIR_LoadHigh()  {FIR_LOAD_GPIO_Port->ODR |= FIR_LOAD_Pin;}
+#define FIR_LoadLow()   {FIR_LOAD_GPIO_Port->ODR &= ~FIR_LOAD_Pin;}
+
 void FIR_Init(void)
 {
   FIR_CSHigh();
+  FIR_LoadHigh();
+}
+
+void FIR_Load(int16_t * pBuff) 
+{
+  FIR_LoadLow();
+  HAL_SPI_Transmit_DMA(&hspi1, (uint8_t *)pBuff, UINT16_MAX);
 }
 
 void FIR_Transfer(int16_t * pBuff)
@@ -56,7 +66,11 @@ void FIR_Fill(int16_t * pBuff)
 
 void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
 {
-  if(hspi == &hspi3)
+  if(hspi == &hspi1)
+  {
+    FIR_LoadHigh();
+  }
+  else if(hspi == &hspi3)
   {
     FIR_dataReady = true;
     FIR_CSHigh();
