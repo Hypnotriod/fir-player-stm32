@@ -12,8 +12,9 @@
 #define FIR_PACKET_SIZE         (FIR_SAMPLE_OUT_SIZE * FIR_PACKET_SAMPLES_NUM)
 
 void FIR_Init(void);
-void FIR_Transfer(int16_t * pBuff);
+void FIR_Transfer(const int16_t * pBuff);
 void FIR_Fill(int16_t * pBuff);
+void FIR_Load(const int16_t * pBuff);
 
 extern volatile bool FIR_dataReady;
 

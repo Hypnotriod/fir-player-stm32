@@ -17,3 +17,6 @@ Configured with `STM32CubeMX` initialization code generator
 * SPI_MISO -> **PC11**
 * SPI_MOSI -> **PC12**
 * SPI_CS -> **PG12**
+* FIR_DO -> **PA7**
+* FIR_SCK -> **PA5**
+* FIR_LOAD -> **PA4**

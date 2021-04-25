@@ -18,13 +18,13 @@ void FIR_Init(void)
   FIR_LoadHigh();
 }
 
-void FIR_Load(int16_t * pBuff) 
+void FIR_Load(const int16_t * pBuff) 
 {
   FIR_LoadLow();
   HAL_SPI_Transmit_DMA(&hspi1, (uint8_t *)pBuff, UINT16_MAX);
 }
 
-void FIR_Transfer(int16_t * pBuff)
+void FIR_Transfer(const int16_t * pBuff)
 {
   size_t i;
   
