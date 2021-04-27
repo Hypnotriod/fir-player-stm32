@@ -97,7 +97,7 @@ int main(void)
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
   FIR_Init();
-  FIR_Load(IMPULSE_Impulses[0]);
+  FIR_Load(IMPULSE_Impulses[0], IMPULSE_SIZE);
   AUDIO_Init();
   AUDIO_Start();
   /* USER CODE END 2 */
@@ -119,6 +119,9 @@ int main(void)
     if (FIR_dataReady) {
       FIR_Fill(pBuff);
       FIR_dataReady = false;
+    }
+    if (!FIR_impulseReady) {
+      FIR_ResumeLoad();
     }
     /* USER CODE END WHILE */
 

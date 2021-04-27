@@ -4,9 +4,9 @@
 
 #include "stm32f4xx_hal.h"
 
-#define IMPULSE_SIZE 65536
+#define IMPULSE_SIZE 131072
 #define IMPULSES_NUM 1
 
-extern const int16_t * IMPULSE_Impulses[IMPULSES_NUM];
+extern const uint8_t * IMPULSE_Impulses[IMPULSES_NUM];
 
 #endif
