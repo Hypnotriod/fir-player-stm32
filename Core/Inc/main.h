@@ -91,6 +91,8 @@ void Error_Handler(void);
 #define ENC_SENSE_GPIO_Port GPIOA
 #define ENC_BTN_Pin         GPIO_PIN_2
 #define ENC_BTN_GPIO_Port   GPIOA
+#define FPGA_READY_Pin      GPIO_PIN_6
+#define FPGA_READY_GPIO_Port GPIOA
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
