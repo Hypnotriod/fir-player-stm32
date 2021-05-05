@@ -18,14 +18,18 @@ static volatile uint8_t * impulse;
 void FIR_Init(void)
 {
   FIR_CSHigh();
-  FIR_LoadHigh();
+  FIR_LoadLow();
 }
 
 void FIR_Load(const uint8_t * pBuff, uint32_t size)
 {
-  uint16_t bytesToTransmit = size < FIR_IMPULSE_PORTION_SIZE ? size : FIR_IMPULSE_PORTION_SIZE;
+  uint16_t bytesToTransmit;
+
+  if (!FIR_impulseReady) return;
+  
+  bytesToTransmit = size < FIR_IMPULSE_PORTION_SIZE ? size : FIR_IMPULSE_PORTION_SIZE;
   FIR_impulseReady = false;
-  FIR_LoadLow();
+  FIR_LoadHigh();
   impulseBytesLeft = size - bytesToTransmit;
   HAL_SPI_Transmit_DMA(&hspi1, (uint8_t *)pBuff, bytesToTransmit);
   impulse = (uint8_t * )pBuff + bytesToTransmit;
@@ -35,7 +39,7 @@ void FIR_ResumeLoad(void)
 {
   uint16_t bytesToTransmit;
   
-  if (hspi1.State != HAL_SPI_STATE_READY) return;
+  if (hspi1.State != HAL_SPI_STATE_READY || FIR_impulseReady) return;
   
   bytesToTransmit = impulseBytesLeft < FIR_IMPULSE_PORTION_SIZE ? impulseBytesLeft : FIR_IMPULSE_PORTION_SIZE;
   impulseBytesLeft -= bytesToTransmit;
@@ -83,16 +87,20 @@ void FIR_Fill(int16_t * pBuff)
   }
 }
 
-void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
+void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi)
 {
   if(hspi == &hspi1)
   {
     if (impulseBytesLeft == 0) {
-      FIR_LoadHigh();
+      FIR_LoadLow();
       FIR_impulseReady = true;
     }
   }
-  else if(hspi == &hspi3)
+}
+
+void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
+{
+  if(hspi == &hspi3)
   {
     FIR_dataReady = true;
     FIR_CSHigh();

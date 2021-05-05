@@ -49,7 +49,8 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+volatile uint8_t impulseIndex = 0;
+volatile bool impulseIndexChanged = false;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -60,7 +61,18 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+  if (GPIO_Pin == ENC_INT_Pin && FIR_impulseReady)
+  {
+    if ((ENC_SENSE_GPIO_Port->IDR & ENC_SENSE_Pin) == ENC_SENSE_Pin) {
+      impulseIndex = (impulseIndex == IMPULSES_NUM - 1) ? 0 : impulseIndex + 1;
+    } else {
+      impulseIndex = (impulseIndex == 0) ? IMPULSES_NUM - 1 : impulseIndex - 1;
+    }
+    impulseIndexChanged = true;
+  }
+}
 /* USER CODE END 0 */
 
 /**
@@ -97,7 +109,6 @@ int main(void)
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
   FIR_Init();
-  FIR_Load(IMPULSE_Impulses[0], IMPULSE_SIZE);
   AUDIO_Init();
   AUDIO_Start();
   /* USER CODE END 2 */
@@ -122,6 +133,9 @@ int main(void)
     }
     if (!FIR_impulseReady) {
       FIR_ResumeLoad();
+    } else if (impulseIndexChanged) {
+      impulseIndexChanged = false;
+      FIR_Load(IMPULSE_Impulses[impulseIndex], IMPULSE_SIZE);
     }
     /* USER CODE END WHILE */
 
