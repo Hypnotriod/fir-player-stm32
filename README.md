@@ -20,4 +20,8 @@ Configured with `STM32CubeMX` initialization code generator
 * FIR_DO -> **PA7**
 * FIR_SCK -> **PA5**
 * FIR_LOAD -> **PA4**
+* ENC_INT -> **PA0**
+* ENC_SENSE -> **PA1**
+* ENC_BTN -> **PA2**
 * FPGA_READY -> **PA6**
+* STATE_LED -> **PF6**
