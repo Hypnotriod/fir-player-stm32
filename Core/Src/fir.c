@@ -1,6 +1,7 @@
 
 #include "fir.h"
 #include "spi.h"
+#include "gpio.h"
 
 volatile bool FIR_dataReady = false;
 volatile bool FIR_impulseReady = true;
@@ -27,6 +28,7 @@ void FIR_Load(const uint8_t * pBuff, uint32_t size)
 
   if (!FIR_impulseReady) return;
   
+  GPIO_StateLedOn();
   bytesToTransmit = size < FIR_IMPULSE_PORTION_SIZE ? size : FIR_IMPULSE_PORTION_SIZE;
   FIR_impulseReady = false;
   FIR_LoadHigh();
@@ -94,6 +96,7 @@ void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi)
     if (impulseBytesLeft == 0) {
       FIR_LoadLow();
       FIR_impulseReady = true;
+      GPIO_StateLedOff();
     }
   }
 }

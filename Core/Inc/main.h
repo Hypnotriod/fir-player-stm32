@@ -93,6 +93,8 @@ void Error_Handler(void);
 #define ENC_BTN_GPIO_Port   GPIOA
 #define FPGA_READY_Pin      GPIO_PIN_6
 #define FPGA_READY_GPIO_Port GPIOA
+#define STATE_LED_Pin       GPIO_PIN_6
+#define STATE_LED_GPIO_Port GPIOF
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

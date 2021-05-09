@@ -64,7 +64,7 @@ void SystemClock_Config(void);
 /* USER CODE BEGIN 0 */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-  if (GPIO_Pin == ENC_INT_Pin && FIR_impulseReady)
+  if (GPIO_Pin == ENC_INT_Pin && FIR_impulseReady && !impulseIndexChanged)
   {
     if ((ENC_SENSE_GPIO_Port->IDR & ENC_SENSE_Pin) == ENC_SENSE_Pin) {
       impulseIndex = (impulseIndex == IMPULSES_NUM - 1) ? 0 : impulseIndex + 1;
@@ -136,13 +136,13 @@ int main(void)
     if (!FIR_impulseReady) {
       FIR_ResumeLoad();
     } else if (impulseIndexChanged) {
-      impulseIndexChanged = false;
       FIR_Load(IMPULSE_Impulses[impulseIndex], IMPULSE_SIZE);
+      impulseIndexChanged = false;
     }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	}
+  }
   /* USER CODE END 3 */
 }
 
