@@ -39,7 +39,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define WaitReady() while ((FPGA_READY_GPIO_Port->IDR & FPGA_READY_Pin) != FPGA_READY_Pin)
+#define WaitReady() while ((FPGA_READY_GPIO_Port->IDR & FPGA_READY_Pin) == FPGA_READY_Pin)
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -51,7 +51,7 @@
 
 /* USER CODE BEGIN PV */
 volatile uint8_t impulseIndex = 0;
-volatile bool impulseIndexChanged = true;
+volatile bool impulseIndexChanged = false;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -111,7 +111,11 @@ int main(void)
   /* USER CODE BEGIN 2 */
   FIR_Init();
   AUDIO_Init();
+  HAL_Delay(100);
   WaitReady();
+  HAL_Delay(300);
+  FIR_Load(IMPULSE_Impulses[0], IMPULSE_SIZE);
+  while (!FIR_impulseReady) FIR_ResumeLoad();
   AUDIO_Start();
   /* USER CODE END 2 */
 
