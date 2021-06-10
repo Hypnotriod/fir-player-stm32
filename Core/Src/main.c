@@ -114,7 +114,7 @@ int main(void)
   HAL_Delay(100);
   WaitReady();
   HAL_Delay(300);
-  FIR_Load(IMPULSE_Impulses[0], IMPULSE_SIZE);
+  FIR_Load((const uint8_t *)IMPULSE_Impulses[0], IMPULSE_SIZE);
   while (!FIR_impulseReady) FIR_ResumeLoad();
   AUDIO_Start();
   /* USER CODE END 2 */
@@ -140,7 +140,7 @@ int main(void)
     if (!FIR_impulseReady) {
       FIR_ResumeLoad();
     } else if (impulseIndexChanged) {
-      FIR_Load(IMPULSE_Impulses[impulseIndex], IMPULSE_SIZE);
+      FIR_Load((const uint8_t *)IMPULSE_Impulses[impulseIndex], IMPULSE_SIZE);
       impulseIndexChanged = false;
     }
     /* USER CODE END WHILE */
