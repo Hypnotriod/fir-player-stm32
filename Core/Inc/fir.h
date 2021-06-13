@@ -18,6 +18,8 @@ void FIR_Fill(int16_t * pBuff);
 void FIR_Load(const uint8_t * pBuff, uint32_t size);
 void FIR_ResumeLoad(void);
 
+#define FIR_OnDataProcessed()  FIR_dataReady = false
+
 extern volatile bool FIR_dataReady;
 extern volatile bool FIR_impulseReady;
 

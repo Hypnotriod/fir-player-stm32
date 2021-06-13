@@ -21,6 +21,9 @@ void AUDIO_ClearBufferSecondHalf(void);
 
 void DMA1_Stream5_IRQHandler(void);
 
+#define AUDIO_OnFirstBufferHalfProcessed() AUDIO_firstBufferHalfReady = false
+#define AUDIO_OnSecondBufferHalfProcessed() AUDIO_secondBufferHalfReady = false
+
 extern int16_t AUDIO_circularBuffer[AUDIO_CIRCULAR_BUFFER_SIZE];
 extern volatile bool AUDIO_secondBufferHalfReady;
 extern volatile bool AUDIO_firstBufferHalfReady;

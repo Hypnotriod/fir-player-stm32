@@ -28,7 +28,6 @@ void FIR_Load(const uint8_t * pBuff, uint32_t size)
 
   if (!FIR_impulseReady) return;
   
-  GPIO_StateLedOn();
   bytesToTransmit = size < FIR_IMPULSE_PORTION_SIZE ? size : FIR_IMPULSE_PORTION_SIZE;
   FIR_impulseReady = false;
   FIR_LoadHigh();
@@ -82,7 +81,7 @@ void FIR_Fill(int16_t * pBuff)
   size_t i;
   int16_t sample;
   
-  for (i = 0 ; i < AUDIO_CIRCULAR_BUFFER_QUARTER_SIZE; i++) {
+  for (i = 0; i < AUDIO_CIRCULAR_BUFFER_QUARTER_SIZE; i++) {
     sample = buffer[i];
     pBuff[i * 2] = AUDIO_Swap16(sample);
     pBuff[i * 2 + 1] = pBuff[i * 2];
@@ -96,7 +95,6 @@ void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi)
     if (impulseBytesLeft == 0) {
       FIR_LoadLow();
       FIR_impulseReady = true;
-      GPIO_StateLedOff();
     }
   }
 }

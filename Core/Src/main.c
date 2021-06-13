@@ -30,6 +30,8 @@
 #include "audio.h"
 #include "fir.h"
 #include "impulse.h"
+#include "ui.h"
+#include "amp.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -50,8 +52,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-volatile uint8_t impulseIndex = 0;
-volatile bool impulseIndexChanged = false;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -62,18 +63,7 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-{
-  if (GPIO_Pin == ENC_INT_Pin && FIR_impulseReady && !impulseIndexChanged)
-  {
-    if ((ENC_SENSE_GPIO_Port->IDR & ENC_SENSE_Pin) == ENC_SENSE_Pin) {
-      impulseIndex = (impulseIndex == IMPULSES_NUM - 1) ? 0 : impulseIndex + 1;
-    } else {
-      impulseIndex = (impulseIndex == 0) ? IMPULSES_NUM - 1 : impulseIndex - 1;
-    }
-    impulseIndexChanged = true;
-  }
-}
+
 /* USER CODE END 0 */
 
 /**
@@ -123,25 +113,28 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    if (AUDIO_firstBufferHalfReady) {
+    if (AUDIO_firstBufferHalfReady)
+    {
+      AMP_Process(&AUDIO_circularBuffer[1]);
       FIR_Transfer(&AUDIO_circularBuffer[1]);
       pBuff = AUDIO_circularBuffer;
-      AUDIO_firstBufferHalfReady = false;
+      AUDIO_OnFirstBufferHalfProcessed();
     }
-    if (AUDIO_secondBufferHalfReady) {
+    else if (AUDIO_secondBufferHalfReady)
+    {
+      AMP_Process(&AUDIO_circularBuffer[AUDIO_CIRCULAR_BUFFER_HALF_SIZE + 1]);
       FIR_Transfer(&AUDIO_circularBuffer[AUDIO_CIRCULAR_BUFFER_HALF_SIZE + 1]);
       pBuff = &AUDIO_circularBuffer[AUDIO_CIRCULAR_BUFFER_HALF_SIZE];
-      AUDIO_secondBufferHalfReady = false;
+      AUDIO_OnSecondBufferHalfProcessed();
     }
-    if (FIR_dataReady) {
+    else if (FIR_dataReady)
+    {
       FIR_Fill(pBuff);
-      FIR_dataReady = false;
+      FIR_OnDataProcessed();
     }
-    if (!FIR_impulseReady) {
-      FIR_ResumeLoad();
-    } else if (impulseIndexChanged) {
-      FIR_Load((const uint8_t *)IMPULSE_Impulses[impulseIndex], IMPULSE_SIZE);
-      impulseIndexChanged = false;
+    else
+    {
+      UI_Update();
     }
     /* USER CODE END WHILE */
 

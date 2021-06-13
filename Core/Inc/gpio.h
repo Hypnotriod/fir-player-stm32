@@ -32,8 +32,10 @@
 /* USER CODE END Includes */
 
 /* USER CODE BEGIN Private defines */
-#define GPIO_StateLedOn()   {STATE_LED_GPIO_Port->ODR |= STATE_LED_Pin;}
-#define GPIO_StateLedOff()  {STATE_LED_GPIO_Port->ODR &= ~STATE_LED_Pin;}
+#define GPIO_StateLedOn()           STATE_LED_GPIO_Port->ODR |= STATE_LED_Pin
+#define GPIO_StateLedOff()          STATE_LED_GPIO_Port->ODR &= ~STATE_LED_Pin
+#define GPIO_IsEncoderSenseHigh()   (ENC_SENSE_GPIO_Port->IDR & ENC_SENSE_Pin)
+#define GPIO_IsEncoderButtonHigh()  (ENC_BTN_GPIO_Port->IDR & ENC_BTN_Pin)
 /* USER CODE END Private defines */
 
 void MX_GPIO_Init(void);
